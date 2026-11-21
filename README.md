@@ -4,6 +4,11 @@ Outriders (PC / Steam) için hazırlanmış, tam ve güncel Türkçe yerelleşti
 
 ---
 
+## 📥 Hızlı İndir
+- **[Outriders_Turkce_Yama_v1.0.0.zip](https://github.com/sqtbey/Outriders-Turkce-Yama/raw/main/Outriders_Turkce_Yama_v1.0.0.zip)** (1.3 MB)
+
+---
+
 ## 🌟 Özellikler
 - **%100 Eksiksiz Çeviri:** Tüm 76 isim uzayı (namespace) ve 38.171 metin satırı Türkçeleştirilmiştir.
 - **Karakter ve Eşya Orijinalliği Korundu:** Karakter isimleri, bosslar, silah/zırh isimleri, modlar ve Enoch evreni terimleri bozulmadan orijinal İngilizce halleriyle bırakılmıştır.
@@ -14,7 +19,7 @@ Outriders (PC / Steam) için hazırlanmış, tam ve güncel Türkçe yerelleşti
 
 ## 🛠️ Kurulum
 
-1. `Outriders-Turkce-Yama` klasöründeki tüm dosyaları oyunun ana klasörüne kopyalayın:
+1. İndirdiğiniz zip arşivinin içeriğini oyunun ana klasörüne çıkartın:
    *(Örn: `C:\Program Files (x86)\Steam\steamapps\common\OUTRIDERS\`)*
 2. Oyundan çıkmış olduğunuzdan emin olun.
 3. **`Install_Yama.bat`** dosyasını çalıştırın.
@@ -33,3 +38,4 @@ Yamayı tamamen kaldırmak ve oyunu orijinal İngilizce haline döndürmek için
 ## 📁 Mimari ve Teknik Dokümantasyon
 Yamaya ait teknik boru hattı ve mimari şema:
 - `docs/architecture/outriders_localization_pipeline.html` dosyasını tarayıcınızda açarak interaktif mimari şemayı inceleyebilirsiniz.
+
