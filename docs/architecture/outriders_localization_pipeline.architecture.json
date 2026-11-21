@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "OUTRIDERS Turkish Localization Architecture",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    { "id": "game_pak", "type": "database", "label": "Retail Pak File", "sublabel": "pakchunk00_s00_0_P", "pos": [40, 80], "size": [130, 60] },
+    { "id": "aes_engine", "type": "security", "label": "AES Decryptor", "sublabel": "AES-256 ECB Retail Key", "pos": [270, 80], "size": [130, 60] },
+    { "id": "zlib_decomp", "type": "backend", "label": "Zlib Decompressor", "sublabel": "16-byte Aligned Blocks", "pos": [500, 80], "size": [130, 60] },
+    { "id": "locres_reader", "type": "backend", "label": "Locres Parser", "sublabel": "CRC32 / 76 Namespaces", "pos": [730, 80], "size": [130, 60] },
+    { "id": "rule_filter", "type": "backend", "label": "Entity Filter", "sublabel": "Items & Proper Nouns", "pos": [730, 260], "size": [130, 60] },
+    { "id": "token_guard", "type": "security", "label": "Token Shield", "sublabel": "Tags & Format Tokens", "pos": [500, 260], "size": [130, 60] },
+    { "id": "trans_service", "type": "cloud", "label": "Translation Engine", "sublabel": "Batch Neural Pipeline", "pos": [270, 260], "size": [130, 60] },
+    { "id": "ascii_normalizer", "type": "backend", "label": "Font Sanitizer", "sublabel": "ASCII Diacritic Mapper", "pos": [40, 260], "size": [130, 60] },
+    { "id": "locres_builder", "type": "backend", "label": "Locres Builder", "sublabel": "Binary Serializer V2", "pos": [40, 440], "size": [130, 60] },
+    { "id": "repak_engine", "type": "backend", "label": "Repak Outriders", "sublabel": "Magic 0xC2556515", "pos": [270, 440], "size": [130, 60] },
+    { "id": "patch_pak", "type": "database", "label": "Patch Pak File", "sublabel": "pakchunk00_s00_1_P", "pos": [500, 440], "size": [130, 60] },
+    { "id": "game_client", "type": "frontend", "label": "Outriders Client", "sublabel": "Win64-Shipping UE4", "pos": [730, 440], "size": [130, 60] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Extraction Subsystem", "wraps": ["game_pak", "aes_engine", "zlib_decomp", "locres_reader"] },
+    { "kind": "security-group", "label": "Linguistic Pipeline", "wraps": ["rule_filter", "token_guard", "trans_service", "ascii_normalizer"] },
+    { "kind": "region", "label": "Recompilation & Ingestion", "wraps": ["locres_builder", "repak_engine", "patch_pak", "game_client"] }
+  ],
+  "connections": [
+    { "id": "c1", "from": "game_pak", "to": "aes_engine", "label": "Encrypted", "variant": "emphasis" },
+    { "id": "c2", "from": "aes_engine", "to": "zlib_decomp", "label": "Blocks", "variant": "security" },
+    { "id": "c3", "from": "zlib_decomp", "to": "locres_reader" },
+    { "id": "c4", "from": "locres_reader", "to": "rule_filter", "fromSide": "bottom", "toSide": "top" },
+    { "id": "c5", "from": "rule_filter", "to": "token_guard", "label": "Rules" },
+    { "id": "c6", "from": "token_guard", "to": "trans_service", "label": "Protected" },
+    { "id": "c7", "from": "trans_service", "to": "ascii_normalizer", "label": "Turkish" },
+    { "id": "c8", "from": "ascii_normalizer", "to": "locres_builder", "fromSide": "bottom", "toSide": "top" },
+    { "id": "c9", "from": "locres_builder", "to": "repak_engine", "label": "Locres" },
+    { "id": "c10", "from": "repak_engine", "to": "patch_pak", "label": "Pack V9" },
+    { "id": "c11", "from": "patch_pak", "to": "game_client", "label": "Override", "variant": "emphasis" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Extraction & Cryptography", "items": ["Decrypts frozen index and payload with release AES key", "Extracts 63 zlib blocks with 16-byte alignment", "Parses 76 namespaces and 38,171 entries"] },
+    { "dot": "emerald", "title": "Linguistic Constraints", "items": ["Preserves weapons, armors, items and character names in English", "Protects formatting tags and placeholders", "Normalizes Turkish diacritics to ASCII for 100% font safety"] },
+    { "dot": "rose", "title": "Packaging & Mounting", "items": ["Builds bit-exact Optimized_CRC32 locres binary", "Compiles with repak using Outriders magic 0xC2556515", "Mounts as pakchunk00_s00-WindowsNoEditor_1_P.pak"] }
+  ]
+}
